@@ -1,0 +1,9 @@
+@import "variables";
+
+.footer {
+    background-color: $background_color;
+    color: $text_color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
