@@ -1,10 +1,13 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
         main: path.resolve(__dirname, '../src', 'main.js'),
-        ts: path.resolve(__dirname, '../src', 'index.ts')
+        ts: path.resolve(__dirname, '../src', 'index.ts'),
+        polyfills: path.resolve(__dirname, '../src', 'angular', 'polyfills.ts'),
+        angular: path.resolve(__dirname, '../src', 'angular', 'main.ts'),
     },
     mode: 'development',
     output: {
@@ -12,6 +15,7 @@ module.exports = {
         path: path.resolve(__dirname, '../build')
     },
     devServer: {
+       historyApiFallback: true,
        contentBase: 'build',
        overlay: true
     },
@@ -83,6 +87,11 @@ module.exports = {
         extensions: [ '.tsx', '.ts', '.js' ]
     },
     plugins: [
+        new webpack.ContextReplacementPlugin(
+            /angular(\\|\/)core/,
+            path.join(__dirname, '../src'),
+            {}
+        ),
         new HTMLWebpackPlugin({
             template: path.resolve(__dirname, '../src/index.html')
         })
